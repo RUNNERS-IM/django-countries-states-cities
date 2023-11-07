@@ -13,6 +13,6 @@ router.register(r'cities', CityViewSet, basename='city')
 urlpatterns = router.urls
 
 
-# urlpatterns += [
-#     path('/', views.regions, name='regions'),
-# ]
+urlpatterns += [
+    # path('search', views.SearchView, name='regions'),
+]

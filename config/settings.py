@@ -38,8 +38,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'modeltranslation',  # Make sure that the modeltranslation app is listed in your INSTALLED_APPS variable:
-    'rest_framework',
+    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -47,6 +46,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'countries_states_cities',
+    'drf_yasg',
+    'django_filters',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
