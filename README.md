@@ -32,6 +32,8 @@ LANGUAGES = [  # supported languages
 
 2. In ``urls.py``:
 ```python
+from django.urls import path, include
+
 urlpatterns = [
     ...,
     path('csc/', include('countries_states_cities.urls')),
