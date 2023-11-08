@@ -47,7 +47,7 @@ $ python manage.py migrate
 ```
 
 ## 3. Configuration
-Todo
+- Language setting: Todo
 
 ## 4. Update Package
 
@@ -65,10 +65,6 @@ $ cp -a ./csv/ ./countries_states_cities/data
 ```
 
 Build package
-```bash
-$ python setup.py sdist bdist_wheel
-```
-
 ```bash
 $ python setup.py sdist bdist_wheel
 ```
