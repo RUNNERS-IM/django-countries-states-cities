@@ -42,10 +42,41 @@ urlpatterns = [
 
 3. Run ``python manage.py migrate``
 Create the countries_states_cities models.
-```python
+```bash
 $ python manage.py migrate
 ```
 
+## 3. Configuration
+Todo
+
+## 4. Update Package
+
+In ``setup.py``, upgrade version
+```
+[metadata]
+name = django-countries-states-cities
+version = x.x.x
+...
+```
+
+Copy csv files to app 
+```bash
+$ cp -a ./csv/ ./countries_states_cities/data
+```
+
+Build package
+```bash
+$ python setup.py sdist bdist_wheel
+```
+
+```bash
+$ python setup.py sdist bdist_wheel
+```
+
+Deploy package
+```bash
+$ twine upload --verbose dist/django-countries-states-cities-x.x.x.tar.gz
+```
 
 ## The MIT License
 

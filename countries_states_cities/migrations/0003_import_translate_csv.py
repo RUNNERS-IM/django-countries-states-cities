@@ -38,7 +38,7 @@ def forwards_update(apps, schema_editor):
         return jsonArray
 
     def csv_to_bulkdata(filenames, model):
-        path = os.path.join(current_path, f'../../csv/{filenames}_translated.csv')
+        path = os.path.join(current_path, f'../data/{filenames}_translated.csv')
         print('[0003_import_translate_csv] Read the csv file located "{}" and convert it to Json'.format(path))
         return csv_to_json(path, model)
 
