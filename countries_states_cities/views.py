@@ -175,22 +175,22 @@ class RegionViewSet(ViewSetMixin):
 class SubregionViewSet(ViewSetMixin):
     queryset = Subregion.objects.all()
     serializer_class = SubregionSerializer
-    filterset_fields = ['region']
+    filterset_fields = ['ids', 'region']
 
 
 class CountryViewSet(ViewSetMixin):
     queryset = Country.objects.all()
     serializer_class = CountrySerializer
-    filterset_fields = ['subregion']
+    filterset_fields = ['ids', 'subregion']
 
 
 class StateViewSet(ViewSetMixin):
     queryset = State.objects.all()
     serializer_class = StateSerializer
-    filterset_fields = ['country']
+    filterset_fields = ['ids', 'country']
 
 
 class CityViewSet(ViewSetMixin):
     queryset = City.objects.all()
     serializer_class = CitySerializer
-    filterset_fields = ['country', 'state']
+    filterset_fields = ['ids', 'country', 'state']

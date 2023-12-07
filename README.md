@@ -51,7 +51,7 @@ $ python manage.py migrate
 
 ## 4. Update Package
 
-In ``setup.py``, upgrade version
+In ``setup.cfg``, upgrade version
 ```
 [metadata]
 name = django-countries-states-cities
