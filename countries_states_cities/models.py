@@ -24,7 +24,7 @@ class BaseArea(models.Model):
         abstract = True
 
     def __str__(self):
-        return '{}({}) {} {}'.format(self.name, self.id, self.latitude, self.longitude)
+        return '{} ({})'.format(self.name, self.id)
 
 
 class Region(BaseArea):

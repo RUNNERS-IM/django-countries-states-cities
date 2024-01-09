@@ -17,6 +17,7 @@ INSTALLED_APPS = [
     'modeltranslation',
     'django.contrib.admin',
     ...,
+    'import_export',
     'countries_states_cities'
 ]
 
@@ -49,7 +50,28 @@ $ python manage.py migrate
 ## 3. Configuration
 - Language setting: Todo
 
-## 4. Update Package
+## 4. Importing Data
+
+This package comes with two custom Django management commands to import data from CSV files and update translations. Follow the steps below to execute these commands:
+
+### Importing Basic Data
+
+1. Ensure your CSV files are placed in the correct directory (e.g., `./countries_states_cities/data/`).
+
+2. Run the following command to import data from the CSV files into your Django models:
+```bash
+$ python manage.py import_csv
+```
+This command will import regions, subregions, countries, states, and cities data from the respective CSV files into the Django models.
+
+3. Updating Translations
+```bash
+$ python manage.py import_translate_csv
+```
+
+
+
+## 5. Update Package
 
 In ``setup.cfg``, upgrade version
 ```
@@ -57,11 +79,6 @@ In ``setup.cfg``, upgrade version
 name = django-countries-states-cities
 version = x.x.x
 ...
-```
-
-Copy csv files to app 
-```bash
-$ cp -a ./csv/ ./countries_states_cities/data
 ```
 
 Build package

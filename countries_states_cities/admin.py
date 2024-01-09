@@ -2,24 +2,27 @@
 from django.contrib import admin, messages
 
 # 3rd Party
+from import_export.admin import ImportExportModelAdmin
 from modeltranslation.admin import TranslationAdmin
 
 # App
-import countries_states_cities.models as models
+from countries_states_cities.models import Region, Subregion, Country, State, City
+from countries_states_cities.utils import get_translated_fields
+from countries_states_cities.resource import RegionResource, SubregionResource, CountryResource, StateResource, \
+    CityResource
 
 
 # Main Section
-
-class BaseAreaAdmin(admin.ModelAdmin):
-
+class BaseAreaAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    name_fields = get_translated_fields(Region, 'name')
     actions = ['translate_selected']
     inline_actions = ['translate']
 
     def get_list_display(self, request):
-        return ('id', 'name',) + self.list_display
+        return ('id',) + self.name_fields + self.list_display
 
     def get_search_fields(self, request):
-        return ('name',) + self.search_fields
+        return self.name_fields + self.search_fields
 
     def translate(self, request, obj, parent_obj=None):
         try:
@@ -44,14 +47,17 @@ class BaseAreaAdmin(admin.ModelAdmin):
     translate_selected.short_description = '선택된 지역들 번역'
 
 
+@admin.register(Region)
 class RegionAdmin(BaseAreaAdmin, TranslationAdmin):
-    pass
+    resource_class = RegionResource
 
 
+@admin.register(Subregion)
 class SubregionAdmin(BaseAreaAdmin, TranslationAdmin):
-    pass
+    resource_class = SubregionResource
 
 
+@admin.register(Country)
 class CountryAdmin(BaseAreaAdmin, TranslationAdmin):
 
     list_display = (
@@ -63,8 +69,10 @@ class CountryAdmin(BaseAreaAdmin, TranslationAdmin):
         'emoji', 'emojiU'
     )
     list_filter = ('region', 'subregion',)
+    resource_class = CountryResource
 
 
+@admin.register(State)
 class StateAdmin(BaseAreaAdmin, TranslationAdmin):
 
     list_display = (
@@ -73,8 +81,10 @@ class StateAdmin(BaseAreaAdmin, TranslationAdmin):
         'latitude', 'longitude',
     )
     list_filter = ('country',)
+    resource_class = StateResource
 
 
+@admin.register(City)
 class CityAdmin(BaseAreaAdmin, TranslationAdmin):
 
     list_display = (
@@ -84,14 +94,4 @@ class CityAdmin(BaseAreaAdmin, TranslationAdmin):
         'wikiDataId',
     )
     list_filter = ('country', 'state',)
-
-
-def _register(model, admin_class):
-    admin.site.register(model, admin_class)
-
-
-_register(models.Region, RegionAdmin)
-_register(models.Subregion, SubregionAdmin)
-_register(models.Country, CountryAdmin)
-_register(models.State, StateAdmin)
-_register(models.City, CityAdmin)
+    resource_class = CityResource

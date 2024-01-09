@@ -45,10 +45,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'countries_states_cities',
     'drf_yasg',
     'django_filters',
     'rest_framework',
+    'import_export',
+    'countries_states_cities',
 ]
 
 MIDDLEWARE = [
@@ -159,4 +160,8 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
     ),
+}
+
+MIGRATION_MODULES = {
+    'countries_states_cities': 'migrations.countries_states_cities',
 }
