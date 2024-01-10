@@ -3,4 +3,4 @@ include LICENSE
 include MANIFEST.in
 include setup.py
 include setup.cfg
-recursive-include countries_states_cities/data *
+recursive-include countries_states_cities/management *
