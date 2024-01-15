@@ -3,7 +3,7 @@ scripts/vendor/vendor
 scripts/vendor/data/*
 issues/
 base.php
-db.sqlite3
+*.sqlite3
 
 
 *.pyc

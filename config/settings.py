@@ -12,12 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 import os
 from pathlib import Path
-
-
-# This is defined here as a do-nothing function because we can't import
-# django.utils.translation -- that module depends on the settings.
-def gettext_noop(s):
-    return s
+from django.utils.translation import gettext_noop
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -96,6 +91,19 @@ DATABASES = {
         'port': '3306'
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'world',
+#         'HOST': 'localhost',
+#         'port': '3306',
+#         'OPTIONS': {
+#             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+#             'charset': 'utf8mb4',
+#             'use_unicode': True,
+#         },
+#     }
+# }
 
 
 # Password validation
@@ -121,12 +129,16 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-LANGUAGES = [  # supported languages
-    ("en", gettext_noop("English")),
-    ("ja", gettext_noop("Japanese")),
-    ("ko", gettext_noop("Korean")),
+LANGUAGES = [
+    ("en", "English"),
+    ("ko", "Korean"),
+    ("ja", "Japanese"),
+    ("zh-hans", 'Simplified Chinese'),  # 간체 중국어
+    ("zh-hant", 'Traditional Chinese'),  # 번체 중국어
+    ("es", "Spanish"),
+    ("ru", "Russian"),
+    ("ar", "Arabic"),
 ]
-
 # MODELTRANSLATION
 MODELTRANSLATION_PREPOPULATE_LANGUAGE = 'en'
 MODELTRANSLATION_AUTO_POPULATE = True

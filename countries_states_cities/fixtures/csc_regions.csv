@@ -1,0 +1,7 @@
+id,name,name_en,name_ko,name_ja,name_zh_hans,name_zh_hant,name_es,name_ru,name_ar,flag,latitude,longitude,wikiDataId,translations,is_duplicated
+6,Polar,Polar,남극,南極大陸,Polar,,Antártida,Антарктида,القارة القطبية الجنوبية,1,,,Q51,"{'en': 'Antarctica', 'ko': '남극', 'ja': '南極大陸', 'zh-hans': '南极洲', 'zh-hant': '南極洲', 'es': 'Antártida', 'ru': 'Антарктида', 'ar': 'القارة القطبية الجنوبية'}",False
+5,Oceania,Oceania,오세아니아,オセアニア,Oceania,,Oceanía,Австралия и Океания,أوقيانوسيا,1,,,Q55643,"{'en': 'Oceania', 'ko': '오세아니아', 'ja': 'オセアニア', 'zh-hant': '大洋洲', 'es': 'Oceanía', 'ru': 'Австралия и Океания', 'ar': 'أوقيانوسيا'}",False
+4,Europe,Europe,유럽,ヨーロッパ,Europe,,Europa,Европа,أوروبا,1,,,Q46,"{'en': 'Europe', 'ko': '유럽', 'ja': 'ヨーロッパ', 'zh-hans': '欧洲', 'zh-hant': '歐洲', 'es': 'Europa', 'ru': 'Европа', 'ar': 'أوروبا'}",False
+3,Asia,Asia,아시아,アジア,Asia,,Asia,Азия,آسيا,1,,,Q48,"{'en': 'Asia', 'ko': '아시아', 'ja': 'アジア', 'zh-hans': '亚洲', 'zh-hant': '亞洲', 'es': 'Asia', 'ru': 'Азия', 'ar': 'آسيا'}",False
+2,Americas,Americas,아메리카,アメリカ州,Americas,,América,Америка,أمريكتان,1,,,Q828,"{'en': 'Americas', 'ko': '아메리카', 'ja': 'アメリカ州', 'zh-hans': '美洲', 'zh-hant': '美洲', 'es': 'América', 'ru': 'Америка', 'ar': 'أمريكتان'}",False
+1,Africa,Africa,아프리카,アフリカ,Africa,,África,Африка,إفريقيا,1,,,Q15,"{'en': 'Africa', 'ko': '아프리카', 'ja': 'アフリカ', 'zh-hans': '非洲', 'zh-hant': '非洲', 'es': 'África', 'ru': 'Африка', 'ar': 'إفريقيا'}",False

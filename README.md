@@ -5,9 +5,10 @@
 The preferred installation method is directly from pypi:
 
 ```bash
-# Create promgen setting directory.
+# Install django-countries-states-cities
 $ pip install -U django-countries-states-cities
 ```
+This Django library is built using the [Countries States Cities Database](https://github.com/dr5hn/countries-states-cities-database).
 
 ## 2. Quickstart
 
@@ -21,13 +22,15 @@ INSTALLED_APPS = [
     'countries_states_cities'
 ]
 
-def gettext_noop(s):
-    return s
-
-LANGUAGES = [  # supported languages
-    ("en", gettext_noop("English")),
-    ("ja", gettext_noop("Japanese")),
-    ("ko", gettext_noop("Korean")),
+LANGUAGES = [
+    ("en", "English"),
+    ("ko", "Korean"),
+    ("ja", "Japanese"),
+    ('zh-hans', 'Simplified Chinese'),  # 간체 중국어
+    ('zh-hant', 'Traditional Chinese'),  # 번체 중국어
+    ("es", "Spanish"),
+    ("ru", "Russian"),
+    ("ar", "Arabic"),
 ]
 ```
 
@@ -41,55 +44,26 @@ urlpatterns = [
 ]
 ```
 
-3. Run ``python manage.py migrate``
-Create the countries_states_cities models.
+## 3. Database Setup
+Run the following commands to set up the database:
+
 ```bash
+# Create migration files for countries_states_cities models
+$ python manage.py makemigrations countries_states_cities
+
+# Apply migrations to create countries_states_cities models
 $ python manage.py migrate
 ```
 
-## 3. Configuration
-- Language setting: Todo
-
-## 4. Importing Data
-
-This package comes with two custom Django management commands to import data from CSV files and update translations. Follow the steps below to execute these commands:
-
-### Importing Basic Data
-
-1. Ensure your CSV files are placed in the correct directory (e.g., `./countries_states_cities/data/`).
-
-2. Run the following command to import data from the CSV files into your Django models:
+## 4. Loading Initial Data
+To load initial data into the database, run the custom command:
 ```bash
-$ python manage.py import_csv
+$ python manage.py loaddata_csv
 ```
-This command will import regions, subregions, countries, states, and cities data from the respective CSV files into the Django models.
+This command will import data from predefined CSV files into the database.
 
-3. Updating Translations
-```bash
-$ python manage.py import_translate_csv
-```
-
-
-
-## 5. Update Package
-
-In ``setup.cfg``, upgrade version
-```
-[metadata]
-name = django-countries-states-cities
-version = x.x.x
-...
-```
-
-Build package
-```bash
-$ python setup.py sdist bdist_wheel
-```
-
-Deploy package
-```bash
-$ twine upload --verbose dist/django-countries-states-cities-x.x.x.tar.gz
-```
+## 5. Further Configuration
+For further configuration and usage instructions, please refer to the official documentation.
 
 ## The MIT License
 
