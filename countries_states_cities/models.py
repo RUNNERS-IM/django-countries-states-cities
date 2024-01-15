@@ -82,23 +82,23 @@ class BaseArea(models.Model):
             self.save()
 
     def save(self, *args, **kwargs):
-        # wikiDataId 변경 여부 및 중복 상태 변경을 확인하기 위한 플래그
-        wikiDataId_changed = False
-        was_duplicated = self.is_duplicated
-
-        # 기존 인스턴스가 있는 경우, 변경 여부를 체크합니다.
-        if self.pk:
-            old_instance = type(self).objects.get(pk=self.pk)
-            wikiDataId_changed = old_instance.wikiDataId != self.wikiDataId
-            was_duplicated = old_instance.is_duplicated
-
-        # 중복 여부를 업데이트합니다.
-        if wikiDataId_changed:
-            self.update_duplicated_status(is_save=False)
-
-        # 중복 상태가 변경되었거나 wikiDataId가 변경되었으면 번역을 수행합니다.
-        if wikiDataId_changed or was_duplicated != self.is_duplicated:
-            self.translate(is_save=False)
+        # # wikiDataId 변경 여부 및 중복 상태 변경을 확인하기 위한 플래그
+        # wikiDataId_changed = False
+        # was_duplicated = self.is_duplicated
+        #
+        # # 기존 인스턴스가 있는 경우, 변경 여부를 체크합니다.
+        # if self.pk:
+        #     old_instance = type(self).objects.get(pk=self.pk)
+        #     wikiDataId_changed = old_instance.wikiDataId != self.wikiDataId
+        #     was_duplicated = old_instance.is_duplicated
+        #
+        # # 중복 여부를 업데이트합니다.
+        # if wikiDataId_changed:
+        #     self.update_duplicated_status(is_save=False)
+        #
+        # # 중복 상태가 변경되었거나 wikiDataId가 변경되었으면 번역을 수행합니다.
+        # if wikiDataId_changed or was_duplicated != self.is_duplicated:
+        #     self.translate(is_save=False)
 
         super().save(*args, **kwargs)
 

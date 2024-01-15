@@ -32,20 +32,35 @@ class Command(BaseCommand):
             for i, row in enumerate(csv_reader, 1):
                 obj = self.process_row(row, model)
                 if obj:
-                    objects.append(obj)
+                    self.update_or_create_object(model, obj)
                 self.print_progress(i, total_rows, filename)
 
-            model.objects.bulk_create(objects, ignore_conflicts=True)
             self.stdout.write(self.style.SUCCESS(f'{filename.capitalize()} import completed'))
 
     def process_row(self, row, model: Model):
-        for field in model._meta.get_fields():
-            if field.name in row:
-                if isinstance(field, ForeignKey):
-                    row[field.name] = self.get_foreign_key_instance(field.related_model, row[field.name])
-                elif field.get_internal_type() == 'DecimalField':
-                    row[field.name] = Decimal(row[field.name]) if row[field.name] else None
-        return model(**row)
+        model_fields = {field.name for field in model._meta.get_fields()}
+        data = {field: value for field, value in row.items() if field in model_fields}
+        for field, value in data.items():
+            if hasattr(model, field):
+                field_instance = model._meta.get_field(field)
+                if isinstance(field_instance, ForeignKey):
+                    data[field] = self.get_foreign_key_instance(field_instance.related_model, value)
+                elif field_instance.get_internal_type() == 'DecimalField':
+                    data[field] = Decimal(value) if value else None
+        return data
+
+    def update_or_create_object(self, model, data):
+        obj_id = data.get('id')
+        if obj_id:
+            try:
+                obj = model.objects.get(id=obj_id)
+                for key, value in data.items():
+                    setattr(obj, key, value)
+                obj.save()
+            except model.DoesNotExist:
+                model.objects.create(**data)
+        else:
+            model.objects.create(**data)
 
     def get_foreign_key_instance(self, related_model, value):
         try:
