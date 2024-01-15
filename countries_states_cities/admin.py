@@ -1,8 +1,7 @@
-# vim: set fileencoding=utf-8 :
+# Django
 from django.contrib import admin, messages
 from django.utils.translation import gettext_lazy as _
 from django.utils.html import format_html
-from django.urls import reverse
 
 # 3rd Party
 from import_export.admin import ImportExportModelAdmin
@@ -18,15 +17,21 @@ from countries_states_cities.resource import RegionResource, SubregionResource, 
 
 # Main Section
 class BaseAreaAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    name_fields = get_translated_fields(Region, 'name')
     actions = ['mark_duplicates_as_duplicated', 'update_wikidata_id', 'translate_selected']
     list_filter = ('is_duplicated',)
     list_editable = ('wikiDataId',)
-    list_display = ('id',) + name_fields + ('wikidata_link', 'wikiDataId', 'is_duplicated', 'updated_at')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.name_fields = self.get_translated_fields('name')
+        self.list_display = ('id',) + self.name_fields + ('wikidata_link', 'wikiDataId', 'is_duplicated', 'updated_at')
 
     # Options
     def get_search_fields(self, request):
         return self.name_fields + self.search_fields + ('id', 'wikiDataId')
+
+    def get_translated_fields(self, field_name):
+        return get_translated_fields(self.model, field_name)
 
     # Fields
     def wikidata_link(self, obj):

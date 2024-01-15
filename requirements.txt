@@ -1,0 +1,8 @@
+Django
+django-filter
+django-import-export
+django-modeltranslation
+django-url-filter
+djangorestframework
+drf-yasg
+requests

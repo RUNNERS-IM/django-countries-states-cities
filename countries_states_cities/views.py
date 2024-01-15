@@ -1,3 +1,5 @@
+# views.py
+
 # Python
 from decimal import Decimal
 
@@ -21,12 +23,13 @@ import django_filters
 # from django.contrib.gis.geos import Point
 
 # countries_states_cities
+from countries_states_cities.filters import SubregionFilter, RegionFilter, CountryFilter, StateFilter, CityFilter
 from countries_states_cities.models import Region, Subregion, Country, State, City
 from countries_states_cities.serializers import RegionSerializer, SubregionSerializer, CountrySerializer, StateSerializer, CitySerializer
 
 
 # Variable Section
-name_search_fields = ['name', 'name_en', 'name_ja', 'name_ko']
+from countries_states_cities.utils import get_translated_fields
 
 
 # Class Section
@@ -148,49 +151,53 @@ class DistanceOrdering(OrderingFilter):
         ]
 
 
-class IdsFilterSet(django_filters.FilterSet):
-    ids = django_filters.CharFilter(method='filter_id')
 
-    def filter_id(self, queryset, name, value):
-        if value:
-            ids = [int(id) for id in value.replace(' ', '').split(',') if id]
-            print(ids)
-            queryset = queryset.filter(id__in=ids)
-
-        return queryset
 
 
 class ViewSetMixin(mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericViewSet):
-    search_fields = name_search_fields
     filter_backends = [DistanceOrdering, filters.SearchFilter, DjangoFilterBackend]
-    filterset_class = IdsFilterSet
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.search_fields = self.get_search_fields()
+
+    def get_search_fields(self):
+        # get_translated_fields 함수를 사용하여 번역된 필드를 검색 필드에 포함시킵니다.
+        translated_fields = get_translated_fields(self.model, 'name')
+        return ('id', 'wikiDataId') + translated_fields  # 필요한 기본 필드와 결합
 
 
 class RegionViewSet(ViewSetMixin):
+    model = Region
     queryset = Region.objects.all()
     serializer_class = RegionSerializer
     filter_backends = ViewSetMixin.filter_backends
+    filterset_class = RegionFilter
 
 
 class SubregionViewSet(ViewSetMixin):
+    model = Subregion
     queryset = Subregion.objects.all()
     serializer_class = SubregionSerializer
-    filterset_fields = ['ids', 'region']
+    filterset_class = SubregionFilter
 
 
 class CountryViewSet(ViewSetMixin):
+    model = Country
     queryset = Country.objects.all()
     serializer_class = CountrySerializer
-    filterset_fields = ['ids', 'subregion']
+    filterset_class = CountryFilter
 
 
 class StateViewSet(ViewSetMixin):
+    model = State
     queryset = State.objects.all()
     serializer_class = StateSerializer
-    filterset_fields = ['ids', 'country']
+    filterset_class = StateFilter
 
 
 class CityViewSet(ViewSetMixin):
+    model = City
     queryset = City.objects.all()
     serializer_class = CitySerializer
-    filterset_fields = ['ids', 'country', 'state']
+    filterset_class = CityFilter

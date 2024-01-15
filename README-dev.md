@@ -21,7 +21,7 @@ $ python manage.py migrate
 Export the data from the Django models to CSV format. This can be useful for data analysis or sharing with systems that require CSV format.
 
 ```bash
-$ python manage.py dumpdata_csv
+$ python manage.py csc_dumpdata_csv
 ```
 
 #### Importing Data from CSV
@@ -29,7 +29,7 @@ $ python manage.py dumpdata_csv
 Load data into the Django models from CSV files. This is useful when integrating data from external sources that provide CSV files.
 
 ```bash
-$ python manage.py loaddata_csv
+$ python manage.py csc_loaddata_csv
 ```
 
 
