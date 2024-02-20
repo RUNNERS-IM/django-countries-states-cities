@@ -58,7 +58,7 @@ $ python manage.py migrate
 ## 4. Loading Initial Data
 To load initial data into the database, run the custom command:
 ```bash
-$ python manage.py loaddata_csv
+$ python manage.py csc_loaddata_csv
 ```
 This command will import data from predefined CSV files into the database.
 
