@@ -44,7 +44,7 @@ class SubregionSerializer(AutoTranslateSerializer):
 class CountrySerializer(AutoTranslateSerializer):
     class Meta:
         model = Country
-        fields = default_fields + ['region', 'subregion', 'iso2']
+        fields = default_fields + ['region', 'subregion', 'iso2', 'phone_code']
 
 
 class StateSerializer(AutoTranslateSerializer):
