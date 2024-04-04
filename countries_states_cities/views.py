@@ -151,9 +151,6 @@ class DistanceOrdering(OrderingFilter):
         ]
 
 
-
-
-
 class ViewSetMixin(mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericViewSet):
     filter_backends = [DistanceOrdering, filters.SearchFilter, DjangoFilterBackend]
 
@@ -164,7 +161,14 @@ class ViewSetMixin(mixins.ListModelMixin, mixins.RetrieveModelMixin, GenericView
     def get_search_fields(self):
         # get_translated_fields 함수를 사용하여 번역된 필드를 검색 필드에 포함시킵니다.
         translated_fields = get_translated_fields(self.model, 'name')
-        return ('id', 'wikiDataId') + translated_fields  # 필요한 기본 필드와 결합
+
+        # 모델 별로 특정 검색 필드를 추가합니다.
+        if self.model == Country:
+            # 'Country' 모델에 대해 'phone_code' 필드를 추가합니다.
+            return ('phone_code',) + translated_fields
+
+        # 다른 모델에 대해서는 기본 번역 필드만 사용합니다.
+        return translated_fields
 
 
 class RegionViewSet(ViewSetMixin):
