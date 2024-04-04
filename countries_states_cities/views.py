@@ -81,7 +81,7 @@ class DistanceOrdering(OrderingFilter):
                 longitude = Decimal(longitude)
                 return sort_by_nearest(queryset, latitude, longitude)
             except:
-                pass
+                ordering.remove('location')
 
         if ordering:
             return queryset.order_by(*ordering)
