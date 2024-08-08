@@ -71,7 +71,7 @@ class DistanceOrdering(OrderingFilter):
 
         if not ordering:
             # implement a custom ordering here
-            ordering = ['-id']
+            ordering = ['iso2']
 
         if 'location' in ordering:
             try:
