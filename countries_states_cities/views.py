@@ -11,7 +11,7 @@ from django.utils.encoding import force_str
 from rest_framework import mixins, filters
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.filters import OrderingFilter
-from rest_framework.compat import coreapi, coreschema, distinct
+from rest_framework.compat import coreapi, coreschema
 
 # Third Party
 from django_filters.rest_framework import DjangoFilterBackend
@@ -68,10 +68,9 @@ class DistanceOrdering(OrderingFilter):
 
     def filter_queryset(self, request, queryset, view):
         ordering = self.get_ordering(request, queryset, view)
-
         if not ordering:
             # implement a custom ordering here
-            ordering = ['iso2']
+            ordering = []
 
         if 'location' in ordering:
             try:
@@ -188,20 +187,20 @@ class SubregionViewSet(ViewSetMixin):
 
 class CountryViewSet(ViewSetMixin):
     model = Country
-    queryset = Country.objects.all()
+    queryset = Country.objects.all().order_by("iso2")
     serializer_class = CountrySerializer
     filterset_class = CountryFilter
 
 
 class StateViewSet(ViewSetMixin):
     model = State
-    queryset = State.objects.all()
+    queryset = State.objects.all().order_by("-id")
     serializer_class = StateSerializer
     filterset_class = StateFilter
 
 
 class CityViewSet(ViewSetMixin):
     model = City
-    queryset = City.objects.all()
+    queryset = City.objects.all().order_by("-id")
     serializer_class = CitySerializer
     filterset_class = CityFilter
