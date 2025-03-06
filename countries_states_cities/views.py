@@ -6,6 +6,7 @@ from decimal import Decimal
 # Django
 from django.db.models.expressions import RawSQL
 from django.utils.encoding import force_str
+from django.utils.translation import get_language
 
 # Django Rest Framework
 from rest_framework import mixins, filters
@@ -79,7 +80,8 @@ class DistanceOrdering(OrderingFilter):
                 latitude = Decimal(latitude)
                 longitude = Decimal(longitude)
                 return sort_by_nearest(queryset, latitude, longitude)
-            except:
+            except Exception as e:
+                print(e)
                 ordering.remove('location')
 
         if ordering:
@@ -187,10 +189,28 @@ class SubregionViewSet(ViewSetMixin):
 
 class CountryViewSet(ViewSetMixin):
     model = Country
-    queryset = Country.objects.all().order_by("iso2")
+    queryset = Country.objects.all()
     serializer_class = CountrySerializer
     filterset_class = CountryFilter
 
+    def get_default_ordering_field(self):
+        """
+          현재 언어에 맞는 정렬 필드를 반환하는 메서드
+          ordering 파라미터 값이 없을 경우 반환되는 필드로 오더링 됩니다.
+        """
+        current_language = get_language()
+        ordering_field = f"name_{current_language}"
+
+        # 필드가 존재하는지 확인 후 반환, 없으면 기본 정렬을 iso2로 유지
+        if ordering_field in [field.name for field in self.model._meta.get_fields()]:
+            return ordering_field
+        return "iso2"
+    
+
+    def get_queryset(self):
+        ordering_field = self.get_default_ordering_field()
+        self.queryset = self.model.objects.all().order_by(ordering_field)
+        return super().get_queryset()
 
 class StateViewSet(ViewSetMixin):
     model = State
