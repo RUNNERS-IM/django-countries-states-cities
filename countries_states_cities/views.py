@@ -4,6 +4,7 @@
 from decimal import Decimal
 
 # Django
+from django.db.models import Func
 from django.db.models.expressions import RawSQL
 from django.utils.encoding import force_str
 from django.utils.translation import get_language
@@ -201,11 +202,19 @@ class CountryViewSet(ViewSetMixin):
         current_language = get_language()
         ordering_field = f"name_{current_language}"
 
-        # 필드가 존재하는지 확인 후 반환, 없으면 기본 정렬을 iso2로 유지
-        if ordering_field in [field.name for field in self.model._meta.get_fields()]:
-            return ordering_field
-        return "iso2"
+        # 한국어 일 경우 collate 지정.
+        try:
+            if ordering_field == "name_ko":
+                ordering_field = Func(
+                    'name_ko',
+                    function='ko_KR.utf8',
+                    template='(%(expressions)s) COLLATE "%(function)s"')
+        except Exception as e:
+            print("ko_KR.utf8 collate를 지원하지 않습니다.")
+            print(e)
+            return "name_ko"
     
+        return ordering_field
 
     def get_queryset(self):
         ordering_field = self.get_default_ordering_field()
